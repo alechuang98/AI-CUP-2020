@@ -1,3 +1,4 @@
 MIR-ST500/
-AIcup_testset/
-
+AIcup_testset_ok/
+.vscode/
+__pycache__/
