@@ -5,13 +5,14 @@ import numpy as np
 
 if __name__ == '__main__':
     data_path = sys.argv[1]
-    num_song = int(sys.argv[2])
-    output_path = sys.argv[3]
+    song_start = int(sys.argv[2])
+    song_end = int(sys.argv[3])
+    output_path = sys.argv[4]
 
     predict = {}
     error_bound = 1200
 
-    for idx in range(1, num_song + 1):
+    for idx in range(song_start, song_end + 1):
         json_path = os.path.join(data_path, f'{idx}', f'{idx}_feature.json')
 
         with open(json_path, 'r') as json_file:
