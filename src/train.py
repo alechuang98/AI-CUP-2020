@@ -78,18 +78,9 @@ def training(model, loader, optimizer, device):
 
             output1, output2 = model(data)
             # print(output1.shape, output2.shape)
-            output1[output1 < 0.5] = 0
-            output1[output1 >= 0.5] = 1
 
-            print(target.shape)
-
-            total_loss = criterion_onset(output1, torch.narrow(target, dim = 2, start = 0, length = 2))
+            total_loss = 10 * criterion_onset(output1, torch.narrow(target, dim = 2, start = 0, length = 2))
             total_loss += criterion_pitch(output2, torch.narrow(target, dim = 2, start = 2, length = 1))
-            for idx in range(len(target)):
-                if target[idx][0] == 1 and output1[idx][0] == 0:
-                    total_loss += 1
-                elif target[idx][1] == 1 and output1[idx][1] == 0:
-                    total_loss += 1
             
             train_loss += total_loss.item()
             total_length += 1
