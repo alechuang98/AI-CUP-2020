@@ -41,12 +41,15 @@ class Evaluator():
 
     def evaluate_file(self, pred_path):
         score = 0
+        cnt = 0
         with open(pred_path) as f:
             data = json.load(f)
             for key, val in data.items():
+                cnt += 1
                 val = np.array(val)
                 scores = mir_eval.transcription.evaluate(self.ref[key][:, 0:2], self.ref[key][:, 2], val[:, 0:2], val[:, 2])
                 score += .2 * scores['Onset_F-measure'] + .6 * scores['F-measure_no_offset'] + .2 * scores['F-measure']
+            print("evaluate total {} of task.".format(cnt))
             return score / len(self.ref)
 
 def main():
