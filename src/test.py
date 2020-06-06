@@ -20,9 +20,7 @@ class MyData(Data.Dataset):
         return len(self.data_seq)
 
     def __getitem__(self, idx):
-        return {
-            'data': self.data_seq[idx],
-        }
+        return {'data': self.data_seq[idx]}
 
 class Myrnn(nn.Module):
     def __init__(self, input_dim, hidden_size):
