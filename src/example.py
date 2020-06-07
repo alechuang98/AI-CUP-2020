@@ -157,6 +157,7 @@ if __name__ == '__main__':
                 if os.path.exists(wav_path):
                     dic[file_id] = main(wav_path=wav_path, ep_path=ep_path)
                 else:
+                    dic[file_id] = []
                     miss_list.append(file_id)
                     print(f'{file_id}.wav not exist!')
     with open(args.pred_file, "w") as f:
