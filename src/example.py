@@ -113,7 +113,8 @@ def notes2txt(notes, filename):
 def notes2list(notes):
     res = []
     for note in notes:
-        res.append([note.onset_time, note.offset_time, note.pitch])
+        if note.pitch != 0:
+            res.append([note.onset_time, note.offset_time, note.pitch])
     return res
 
 def main(wav_path, ep_path):
@@ -130,17 +131,34 @@ def main(wav_path, ep_path):
 
     return notes2list(notes)
 
+def file_check():
+    vis = [0 for _ in range(1501)]
+    for file in os.listdir('./AIcup_testlink'):
+        if file.endswith('wav'):
+            vis[int(file.split('.')[0])] = 1
+    for i in range(1, len(vis)):
+        if vis[i] == 0:
+            print(i, end=' ')
+    print()
+
 if __name__ == '__main__':
+    file_check()
     parser = argparse.ArgumentParser()
     parser.add_argument("--pred_file", default="./log/example_out.json")
     args = parser.parse_args()
     dic = {}
-    for root, dirs, files in os.walk('./MIR-ST500'):
+    miss_list = []
+    for root, dirs, files in os.walk('./AIcup_testset_ok'):
         for file_name in files:
             if file_name.endswith('_vocal.json'):
                 file_id = int(file_name.split('_')[0])
                 ep_path = os.path.join(root, file_name)
                 wav_path = os.path.join('./AIcup_testlink', f'{file_id}.wav')
-                dic[file_id] = main(wav_path=wav_path, ep_path=ep_path)
-    with open(path_out, "w") as f:
+                if os.path.exists(wav_path):
+                    dic[file_id] = main(wav_path=wav_path, ep_path=ep_path)
+                else:
+                    miss_list.append(file_id)
+                    print(f'{file_id}.wav not exist!')
+    with open(args.pred_file, "w") as f:
         json.dump(dic, f, sort_keys=True)
+    print(sorted(miss_list))
