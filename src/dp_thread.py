@@ -46,7 +46,7 @@ def get_single_song_notes(idx, data_path, output_path, error_bound, num_note):
                 else:
                     backtrack[j][i] = j
 
-    note_pos = 0
+    note_pos = num_note - 1
     loss = np.inf
     for i in range(num_note):
         if dp_table[i][num_pitch - 1] < error_bound:
@@ -80,7 +80,7 @@ def main(data_path, output_path, error_bound, num_note):
 
     with Pool(processes=multiprocessing.cpu_count()) as p:
         results = p.starmap(get_single_song_notes, params)
-    for i in len(results):
+    for i in range(len(results)):
         predict[i + 1] = results[i]
 
     with open(output_path, 'w') as f:
