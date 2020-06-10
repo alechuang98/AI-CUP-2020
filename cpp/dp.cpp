@@ -6,7 +6,7 @@ const int MXN = 2005, B = 128, INF = 1e9 + 7;
 const char *data_path = "AIcup_testset_ok";
 const char *tmp_path = "tmp";
 
-int n, m = 1001;
+int n, m = 5001;
 vector<int> pitch;
 vector<vector<int>> med, sum, p_med, p_sum;
 vector<vector<int>> dp, first_pitch;
